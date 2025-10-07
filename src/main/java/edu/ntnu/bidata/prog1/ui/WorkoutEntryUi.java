@@ -1,4 +1,7 @@
 package edu.ntnu.bidata.prog1.ui;
 
-public class WorkoutEntryUi {
+import edu.ntnu.bidata.prog1.model.WorkoutEntryBook;
+
+public class WorkoutEntryUi
+{
 }

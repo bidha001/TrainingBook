@@ -39,6 +39,8 @@ public record WorkoutEntry(String trainerName, String workout, String text, Loca
         }
     }
 
+
+
     /**
      * The user who made workout.
      *
