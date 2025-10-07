@@ -8,43 +8,45 @@ import java.time.LocalDateTime;
  * @author Binit Dhungana
  * @version 2025-09-29
  */
-public class WorkoutEntry {
-    private final String trainerName;
-    private final String workout;
-    private final String text;
-    private final LocalDateTime timestamp;
-
+public record WorkoutEntry(String trainerName, String workout, String text, LocalDateTime timestamp)
+{
     /**
+     * Constructs a WorkoutEntry with the specified details.
      *
-     * @param trainerName the trainerName who did workout.
+     * @param trainerName the user who made workout.
      * @param workout the type of workout.
      * @param text the details of workout.
      * @param timestamp the date and time when the workout was logged.
      */
-    public WorkoutEntry(String trainerName, String workout, String text, LocalDateTime timestamp) {
-        if (trainerName == null || trainerName.isEmpty()) {
-            throw new IllegalArgumentException("Trainer name cannot be null or empty");
-        }
-        if (workout == null || workout.isEmpty()) {
-            throw new IllegalArgumentException("Workout cannot be null or empty");
-        }
-        if (text == null) {
-            throw new IllegalArgumentException("Text cannot be null");
-        }
-
+    public WorkoutEntry(String trainerName, String workout, String text, LocalDateTime timestamp)
+    {
         this.trainerName = trainerName;
         this.workout = workout;
         this.text = text;
         this.timestamp = (timestamp == null) ? LocalDateTime.now() : timestamp;
 
+        if (trainerName == null || trainerName.isEmpty())
+        {
+            throw new IllegalArgumentException("Trainer name cannot be null or empty");
         }
+        if (workout == null || workout.isEmpty())
+        {
+            throw new IllegalArgumentException("Workout cannot be null or empty");
+        }
+        if (text == null)
+        {
+            throw new IllegalArgumentException("Text cannot be null");
+        }
+    }
 
     /**
      * The user who made workout.
      *
      * @return the user who made workout.
      */
-    public String getTrainerName() {
+    @Override
+    public String trainerName()
+    {
         return trainerName;
     }
 
@@ -53,7 +55,9 @@ public class WorkoutEntry {
      *
      * @return the type of workout.
      */
-    public String getWorkout() {
+    @Override
+    public String workout()
+    {
         return workout;
     }
 
@@ -62,7 +66,9 @@ public class WorkoutEntry {
      *
      * @return the details of workout.
      */
-    public String getText() {
+    @Override
+    public String text()
+    {
         return text;
     }
 
@@ -71,7 +77,9 @@ public class WorkoutEntry {
      *
      * @return the date and time when the workout was logged in and out.
      */
-    public LocalDateTime getTimestamp() {
+    @Override
+    public LocalDateTime timestamp()
+    {
         return timestamp;
     }
 }
