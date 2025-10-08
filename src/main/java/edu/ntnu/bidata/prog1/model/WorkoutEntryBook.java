@@ -1,8 +1,8 @@
 package edu.ntnu.bidata.prog1.model;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -12,11 +12,15 @@ import java.util.List;
  * @author Binit Dhungana
  */
 public class WorkoutEntryBook {
-    private final ArrayList<WorkoutEntry> workoutEntries;
+    private ArrayList<WorkoutEntry> entries;
 
+    /**
+     * Constructs an empty WorkoutEntryBook.
+     */
     public WorkoutEntryBook() {
-        this.workoutEntries = new ArrayList<>();
+        this.entries = new ArrayList<>();
     }
+
 
     /**
      * Adds a new workout entry to the collection.
@@ -28,30 +32,33 @@ public class WorkoutEntryBook {
         if (entry == null) {
             throw new IllegalArgumentException("Workout entry cannot be null");
         }
-        workoutEntries.add(entry);
+        entries.add(entry);
     }
 
-    /**
-     * Returns a list of all workout entries.
-     *
-     * @return a list of all workout entries.
-     */
-    public List<WorkoutEntry> getAllEntries() {
-        return new ArrayList<>(workoutEntries);
-    }
 
     /**
-     * Deletes a workout entry by its index.
+     * Finds and prints all workout entries for a specific trainer name.
      *
-     * @param index the index of the workout entry to delete.
-     * @return true if the entry was deleted, false if the index is invalid.
+     * @param trainerName the trainer name to search for.
      */
-    public boolean deleteByIndex(int index) {
-        if (index < 0 || index >= workoutEntries.size()) {
-            return false;
+    public void findByTrainerName(String trainerName) {
+        if (trainerName == null || trainerName.isBlank()) {
+            System.out.println("Please provide a trainer name.");
+            return;
         }
-        workoutEntries.remove(index);
-        return true;
+        String needle = trainerName.trim();
+        boolean found = false;
+        Iterator<WorkoutEntry> it = entries.iterator();
+        while (it.hasNext()) {
+            WorkoutEntry e = it.next();
+            if (e.getTrainerName().equalsIgnoreCase(needle)) {
+                System.out.println(e);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No entries found for trainer: " + trainerName);
+        }
     }
 
     /**
@@ -66,11 +73,44 @@ public class WorkoutEntryBook {
             throw new IllegalArgumentException("Date cannot be null");
         }
         List<WorkoutEntry> result = new ArrayList<>();
-        for (WorkoutEntry e : workoutEntries) {
-            if (e.timestamp().toLocalDate().equals(date)) {
+        for (WorkoutEntry e : entries) {
+            if (e.getTimestamp().toLocalDate().equals(date)) {
                 result.add(e);
             }
         }
         return result;
+    }
+
+    /**
+     * Deletes a workout entry by its index.
+     *
+     * @param index the index of the workout entry to delete.
+     * @return true if the entry was deleted, false if the index is invalid.
+     */
+    public boolean deleteByIndex(int index) {
+        if (index < 0 || index >= entries.size()) {
+            return false;
+        }
+        entries.remove(index);
+        return true;
+    }
+
+
+    /**
+     * Returns the number of workout entries in the collection.
+     *
+     * @return the number of workout entries.
+     */
+    public int getNumbersOfEntries() {
+        return this.entries.size();
+    }
+
+    /**
+     * Returns an iterator over the workout entries.
+     *
+     * @return an iterator over the workout entries.
+     */
+    public Iterator<WorkoutEntry> getIterator() {
+        return this.entries.iterator();
     }
 }
