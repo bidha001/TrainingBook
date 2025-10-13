@@ -12,13 +12,15 @@ import edu.ntnu.bidata.prog1.ui.WorkoutEntryUi;
  * @version 2025-09-29
  * @author Binit Dhungana
  */
-public class WorkoutEntryBookApp {
+public class WorkoutEntryBookApp
+{
 /**
      * The main method to start the Workout Entry Book application.
      *
      * @param args Command-line arguments (not used).
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         WorkoutEntryUi workoutEntryUi = new WorkoutEntryUi();
         workoutEntryUi.init();
         workoutEntryUi.start();
