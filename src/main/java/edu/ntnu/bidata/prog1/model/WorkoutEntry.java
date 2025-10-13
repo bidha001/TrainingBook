@@ -1,7 +1,6 @@
 package edu.ntnu.bidata.prog1.model;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 /**
  * Represents a workout entry with user, workout type, text description, and date and time.
@@ -24,11 +23,6 @@ public class WorkoutEntry {
      * @param timestamp   the date and time when the workout was logged.
      */
     public WorkoutEntry(String trainerName, String workout, String text, LocalDateTime timestamp) {
-        this.trainerName = trainerName;
-        this.workout = workout;
-        this.text = text;
-        this.timestamp = (timestamp == null) ? LocalDateTime.now() : timestamp;
-
         if (trainerName == null || trainerName.isEmpty()) {
             throw new IllegalArgumentException("Trainer name cannot be null or empty");
         }
@@ -38,6 +32,11 @@ public class WorkoutEntry {
         if (text == null) {
             throw new IllegalArgumentException("Text cannot be null");
         }
+
+        this.trainerName = trainerName;
+        this.workout = workout;
+        this.text = text;
+        this.timestamp = (timestamp == null) ? LocalDateTime.now() : timestamp;
     }
 
     /**
@@ -59,16 +58,6 @@ public class WorkoutEntry {
     }
 
     /**
-     * The details of what has been done.
-     *
-     * @return the details of what has been done.
-     */
-    public String getText() {
-        return text;
-    }
-
-
-    /**
      * The date and time when the workout was logged.
      *
      * @return the date and time when the workout was logged in and out.
@@ -85,9 +74,11 @@ public class WorkoutEntry {
     @Override
     public String toString() {
         return "Trainer: " + trainerName
-                + " | Title: " + workout
-                + " | When: " + timestamp
-                + "\n  Text: " + text;
+                + "\nTitle: " + workout
+                + "\nWhen: " + timestamp
+                + "\nText: " + text
+                + "\n-------------------------------";
+
     }
 }
 

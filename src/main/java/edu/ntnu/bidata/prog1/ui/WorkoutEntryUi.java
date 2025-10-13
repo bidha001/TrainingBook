@@ -8,32 +8,74 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+ * Responsible for all user interaction, input and output.
+ * <ul>
+ *   <li>Show menu and get selection from user</li>
+ *   <li>Based on menu selected:</li>
+ *   <ul>
+ *     <li>Print all workout entries</li>
+ *     <li>Add new workout entry based on user input</li>
+ *     <li>Search for workout entry by trainer name or date given by user</li>
+ *     <li>Delete workout entry by index</li>
+ *   </ul>
+ * </ul>
+ */
 public class WorkoutEntryUi {
     private final WorkoutEntryBook workoutEntryBook;
-    //read about this scanner class
     private final Scanner sc = new Scanner(System.in);
 
+    /**
+     * Creates an instance of WorkoutEntryUi.
+     */
     public WorkoutEntryUi() {
         this.workoutEntryBook = new WorkoutEntryBook();
     }
 
-    //read about this println method
-    private void printWorkoutEntryDetails(WorkoutEntry entry) {
-        System.out.println(entry);
-    }
-
-    //read about this iterator pattern
+    /**
+     * Prints all workout entries to the console.
+     *
+     * <p>This version uses a while-loop and Iterator to iterate over all
+     * the workout entry elements in the workout entry book.
+     * It also prints the total number of entries at the beginning.
+     */
     public void printAllEntries() {
         Iterator<WorkoutEntry> it = this.workoutEntryBook.getIterator();
-        int i = 0;
-        if (!it.hasNext()) {
+        int count = workoutEntryBook.getNumbersOfEntries();
+        if (count == 0) {
             System.out.println("No workout entries found.");
+            return;
         }
+
+        System.out.println("Total entries: " + count);
+        int i = 0;
         while (it.hasNext()) {
             System.out.println("[" + (++i) + "] " + it.next());
         }
     }
 
+
+    /**
+     * Deletes a workout entry by its index.
+     * Prompts the user for the index and attempts to delete the corresponding entry.
+     * Provides feedback on whether the deletion was successful or if the index was invalid.
+     */
+    private void deleteByIndex() {
+        System.out.print("Index to delete (0-based): ");
+        String s = sc.nextLine();
+        try {
+            int idx = Integer.parseInt(s.trim());
+            boolean ok = workoutEntryBook.deleteByIndex(idx);
+            System.out.println(ok ? "Deleted." : "Invalid index.");
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a number.");
+        }
+    }
+
+    /** Fills the workout entry book with some test data.
+     *
+     * This method is useful for testing and demonstration purposes.
+     */
     private void fillWithTestData() {
         this.workoutEntryBook.addEntry(new WorkoutEntry(
                 "Binit",
@@ -80,6 +122,12 @@ public class WorkoutEntryUi {
 
     }
 
+    /**
+     * Displays the menu to the user and captures their selection.
+     *
+     * @return the menu choice entered by the user as an integer.
+     *         Returns -1 if the input is invalid (not a number).
+     */
     private int showMenu() {
         int menuChoice = 0;
 
@@ -87,9 +135,11 @@ public class WorkoutEntryUi {
         System.out.println("1. Add workout entry");
         System.out.println("2. List all workout entries");
         System.out.println("3. Search by trainer name");
-        System.out.println("4. Search by date (yyyy-MM-dd)");
-        System.out.println("5. Quit");
-        System.out.print("Choose (1-5): ");
+        System.out.println("4. Search by workout title");
+        System.out.println("5. Search by date (yyyy-MM-dd)");
+        System.out.println("6. Delete by index");
+        System.out.println("7. Quit");
+        System.out.print("Choose (1-7): ");
         String line = sc.nextLine();
         try {
             return Integer.parseInt(line.trim());
@@ -97,6 +147,13 @@ public class WorkoutEntryUi {
             return -1;
         }
     }
+
+    /**
+     * Adds a new workout entry based on user input.
+     * Prompts the user for trainer name, workout title, and details,
+     * then creates a new WorkoutEntry and adds it to the workout entry book.
+     *
+     */
         private void addEntryFromInput() {
             System.out.print("Trainer name: ");
             String name = sc.nextLine();
@@ -110,12 +167,33 @@ public class WorkoutEntryUi {
             System.out.println("Entry added.");
         }
 
+        /**
+         * Searches for workout entries by trainer name.
+         * Prompts the user for a trainer name and displays all matching entries.
+         * If no entries are found, informs the user accordingly.
+         */
         private void searchByTrainerName() {
             System.out.print("Enter trainer name: ");
             String name = sc.nextLine();
             workoutEntryBook.findByTrainerName(name);
         }
 
+        /**
+         * Searches for workout entries by workout title.
+         * Prompts the user for a workout title and displays all matching entries.
+         * If no entries are found, informs the user accordingly.
+         */
+        private void searchByWorkout(){
+            System.out.print("Enter workout title: ");
+            String workout = sc.nextLine();
+            workoutEntryBook.findByWorkout(workout);
+        }
+
+        /**
+         * Searches for workout entries by date.
+         * Prompts the user for a date in the format yyyy-MM-dd and displays all entries from that date.
+         * If no entries are found or if the date format is invalid, informs the user accordingly.
+         */
         private void searchByDate() {
             System.out.print("Enter date (yyyy-MM-dd): ");
             String s = sc.nextLine();
@@ -134,10 +212,17 @@ public class WorkoutEntryUi {
             }
         }
 
-        public void init() {
+    /**
+     * Initializes the user interface by filling the workout entry book with test data.
+     */
+    public void init() {
             fillWithTestData();
         }
 
+        /**
+         * Starts the user interface. This is the main method for running the application.
+         * The application stays in this method as long as the user has not decided to quit.
+         */
         public void start() {
             boolean finished = false;
             while (!finished) {
@@ -145,16 +230,20 @@ public class WorkoutEntryUi {
                     case 1 -> addEntryFromInput();
                     case 2 -> printAllEntries();
                     case 3 -> searchByTrainerName();
-                    case 4 -> searchByDate();
-                    case 5 -> {
+                    case 4 -> searchByWorkout();
+                    case 5 -> searchByDate();
+                    case 6 -> deleteByIndex();
+                    case 7 -> {
                         System.out.println("Thank you!");
+                        sc.close();
                         finished = true;
                     }
-                    default -> System.out.println("Please choose a number 1–5.");
+                    default -> System.out.println("Please choose a number 1–6.");
                 }
             }
         }
     }
+
 
 
 

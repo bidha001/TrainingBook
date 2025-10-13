@@ -46,6 +46,8 @@ public class WorkoutEntryBook {
             System.out.println("Please provide a trainer name.");
             return;
         }
+
+        // what is NEEDLE here?
         String needle = trainerName.trim();
         boolean found = false;
         Iterator<WorkoutEntry> it = entries.iterator();
@@ -58,6 +60,32 @@ public class WorkoutEntryBook {
         }
         if (!found) {
             System.out.println("No entries found for trainer: " + trainerName);
+        }
+    }
+
+    /**
+     * Finds and prints all workout entries for a specific workout type.
+     *
+     * @param workout the workout type to search for.
+     */
+    public void findByWorkout(String workout){
+        if (workout == null || workout.isBlank()) {
+            System.out.println("Please provide a workout type.");
+            return;
+        }
+
+        String needle = workout.trim();
+        boolean found = false;
+        Iterator<WorkoutEntry> it = entries.iterator();
+        while (it.hasNext()) {
+            WorkoutEntry e = it.next();
+            if (e.getWorkout().equalsIgnoreCase(needle)) {
+                System.out.println(e);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No entries found for workout type: " + workout);
         }
     }
 
