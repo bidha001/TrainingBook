@@ -150,7 +150,6 @@ public class WorkoutEntryBook
         return true;
     }
 
-
     /**
      * Returns the number of workout entries in the collection.
      *
@@ -170,4 +169,6 @@ public class WorkoutEntryBook
     {
         return this.entries.iterator();
     }
+
+
 }

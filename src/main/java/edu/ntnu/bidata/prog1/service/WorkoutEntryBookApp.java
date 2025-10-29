@@ -17,7 +17,7 @@ public class WorkoutEntryBookApp
 /**
      * The main method to start the Workout Entry Book application.
      *
-     * @param args Command-line arguments (not used).
+     * @param args Command-line arguments.
      */
     public static void main(String[] args)
     {

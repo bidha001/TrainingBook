@@ -35,9 +35,6 @@ public class WorkoutEntry
         if (text == null) {
             throw new IllegalArgumentException("Text cannot be null");
         }
-        if (timestamp == null) {
-            throw new IllegalArgumentException("Timestamp cannot be null");
-        }
 
         this.trainerName = trainerName;
         this.workout = workout;
@@ -64,6 +61,16 @@ public class WorkoutEntry
     {
         return workout;
     }
+
+    /**
+     * The description text of the workout.
+     *
+     * @return the description text of the workout.
+     */
+    public String getText(){
+        return text;
+    }
+
 
     /**
      * The date and time when the workout was logged in the system.
