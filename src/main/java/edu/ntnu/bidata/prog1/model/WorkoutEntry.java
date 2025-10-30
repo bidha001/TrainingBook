@@ -16,12 +16,12 @@ public class WorkoutEntry
     private final LocalDateTime timestamp;
 
   /**
-     * Creates an instance of WorkoutEntry.
+     * Create an instance of WorkoutEntry.
      *
      * @param trainerName the name of the user who made the workout.
      * @param workout     the type of workout.
      * @param text        description of the workout.
-     * @param timestamp   the date and time when the workout was logged; if null, current date and time is used.
+     * @param timestamp   the date and time when the workout was logged. If null, current date and time is used.
      * @throws IllegalArgumentException if trainerName or workout is null or empty, or if text is null.
      */
     public WorkoutEntry(String trainerName, String workout, String text, LocalDateTime timestamp)
@@ -33,7 +33,7 @@ public class WorkoutEntry
             throw new IllegalArgumentException("Workout cannot be null or empty");
         }
         if (text == null) {
-            throw new IllegalArgumentException("Text cannot be null");
+            throw new IllegalArgumentException("Text cannot be null or empty");
         }
 
         this.trainerName = trainerName;
@@ -43,9 +43,9 @@ public class WorkoutEntry
     }
 
     /**
-     * The trainer name who made workout.
+     * Trainer name who made workout.
      *
-     * @return the Trainer name who made workout.
+     * @return the trainer name who made workout.
      */
     public String getTrainerName()
     {

@@ -9,20 +9,22 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 /**
- * Responsible for all user interaction, input and output.
+ * Handles all user interaction, including input and output, for the Workout Entry Book application.
+ * Provides methods to display menus, read user input, and perform actions such as adding,
+ * listing, searching, and deleting workout entries.
  *
- * Show menu and get selection from user.
- * Based on menu selected:
+ * <ul>
+ *   <li>Display the main menu and handle user selections.</li>
+ *   <li>Print all workout entries.</li>
+ *   <li>Add a new workout entry based on user input.</li>
+ *   <li>Search for workout entries by trainer name.</li>
+ *   <li>Search for workout entries by workout title.</li>
+ *   <li>Search for workout entries by date.</li>
+ *   <li>Delete a workout entry by index.</li>
+ * </ul>
  *
- * Print all workout entries.
- * Add new workout entry based on user input.
- * Search for workout entry by trainer name.
- * Search for workout entry by workout title.
- * Search for workout entry by date.
- * Delete a workout entry by index.
- *
- * @version 2025-09-29
  * @author Binit Dhungana
+ * @version 2025-09-29
  */
 public class WorkoutEntryUi
 {
@@ -30,7 +32,7 @@ public class WorkoutEntryUi
     private final Scanner sc = new Scanner(System.in);
 
     /**
-     * Creates an instance of WorkoutEntryUi.
+     * Constructs a WorkoutEntryUi instance with an empty WorkoutEntryBook.
      */
     public WorkoutEntryUi()
     {
@@ -46,7 +48,7 @@ public class WorkoutEntryUi
     public void printAllEntries()
     {
         Iterator<WorkoutEntry> it = this.workoutEntryBook.getIterator();
-        int count = workoutEntryBook.getNumbersOfEntries();
+        int count = workoutEntryBook.getNumberOfEntries();
         if (count == 0)
         {
             System.out.println("No workout entries found.");
@@ -179,48 +181,74 @@ public class WorkoutEntryUi
         System.out.println("Entry added.");
         }
 
-        private void searchByTrainerName()
-        {
-            System.out.print("Enter trainer name: ");
-            String name = sc.nextLine();
-            workoutEntryBook.findByTrainerName(name);
-        }
+    /**
+     * Searches for workout entries by trainer name.
+     * Prompts the user for a trainer name and displays all matching entries.
+     * If no entries are found, informs the user accordingly.
+     */
+    private void searchByTrainerName()
+    {
+        System.out.print("Enter trainer name: ");
+        String name = sc.nextLine();
 
-        /**
-         * Searches for workout entries by workout title.
-         * Prompts the user for a workout title and displays all matching entries.
-         * If no entries are found, informs the user accordingly.
-         */
-        private void searchByWorkout()
-        {
-            System.out.print("Enter workout title: ");
-            String workout = sc.nextLine();
-            workoutEntryBook.findByWorkout(workout);
-        }
+        var matches = workoutEntryBook.findByTrainerName(name);
 
-        /**
+        if (matches.isEmpty()) {
+            System.out.println("No entries found for trainer: " + name);
+        } else {
+            System.out.println("Entries for trainer: " + name);
+            for (int i = 0; i < matches.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + matches.get(i));
+            }
+        }
+    }
+
+    /**
+     * Searches for workout entries by workout title.
+     * Prompts the user for a workout title and displays all matching entries.
+     * If no entries are found, informs the user accordingly.
+     */
+    private void searchByWorkout()
+    {
+        System.out.print("Enter workout title: ");
+        String workout = sc.nextLine();
+
+        var matches = workoutEntryBook.findByWorkout(workout);
+
+        if (matches.isEmpty()) {
+            System.out.println("No entries found for workout: " + workout);
+        } else {
+            System.out.println("Entries for workout: " + workout);
+            for (int i = 0; i < matches.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + matches.get(i));
+            }
+        }
+    }
+
+
+    /**
          * Searches for workout entries by date.
          * Prompts the user for a date in the format yyyy-MM-dd and displays all entries from that date.
          * If no entries are found or if the date format is invalid, informs the user accordingly.
          */
-        private void searchByDate()
-        {
-            System.out.print("Enter date (yyyy-MM-dd): ");
-            String s = sc.nextLine();
-            try {
-                LocalDate d = LocalDate.parse(s.trim());
-                var list = workoutEntryBook.findByDate(d);
-                if (list.isEmpty()) {
-                    System.out.println("No entries on " + d + ".");
-                } else {
-                    for (int i = 0; i < list.size(); i++) {
-                        System.out.println("[" + i + "] " + list.get(i));
-                    }
+    private void searchByDate()
+    {
+        System.out.print("Enter date (yyyy-MM-dd): ");
+        String s = sc.nextLine();
+        try {
+            LocalDate d = LocalDate.parse(s.trim());
+            var list = workoutEntryBook.findByDate(d);
+            if (list.isEmpty()) {
+                System.out.println("No entries on " + d + ".");
+               } else {
+                for (int i = 0; i < list.size(); i++) {
+                    System.out.println("[" + i + "] " + list.get(i));
                 }
-            } catch (Exception e) {
-                System.out.println("Invalid date format.");
             }
+        } catch (Exception e) {
+            System.out.println("Invalid date format.");
         }
+    }
 
         /**
          * Initializes the workout entry book with test data.

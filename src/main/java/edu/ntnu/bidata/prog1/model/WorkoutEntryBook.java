@@ -6,36 +6,32 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Represents a collection of workout entries.
+ * Represents a collection of workout entries which allows adding,searching, and removing workout entries.
+ * Users can retrieve entries based on trainer name, workout type, or date,
+ * as well as obtain the total number of stored entries or iterate through them.
  *
- * Add a workout entry to the collection.
- * Find workout entries by trainer name.
- * Find workout entries by workout type.
- * Find workout entries by date.
- * Delete a workout entry by index.
- * Get the number of workout entries in the collection.
- * Get an iterator over the workout entries.
+ * <ul>
+ * <li>Add a workout entry to the collection.<li>
+ * <li>Find workout entries by trainer name.<li>
+ * <li>Find workout entries by workout type.<li>
+ * <li>Find workout entries by date.<li>
+ * <li>Delete a workout entry by index.<li>
+ * <li>Get the number of workout entries in the collection.<li>
+ * <li>Get an iterator over the workout entries.<li>
+ *</ul>
  *
  * @version 2025-09-29
  * @author Binit Dhungana
  */
 public class WorkoutEntryBook
 {
-    private ArrayList<WorkoutEntry> entries;
-
-    /**
-     * Creates an instance of WorkoutEntryBook.
-     */
-    public WorkoutEntryBook()
-    {
-        this.entries = new ArrayList<>();
-    }
+    private final List<WorkoutEntry> entries = new ArrayList<>();
 
 
     /**
-     * Adds a workout entry to the collection.
+     * Adds  workout entry to the collection in WorkoutEntryBook.
      *
-     * @param entry the workout entry to be added.
+     * @param entry the workout entry to be added in the collection.
      * @throws IllegalArgumentException if the entry is null.
      */
     public void addEntry(WorkoutEntry entry)
@@ -47,67 +43,56 @@ public class WorkoutEntryBook
         entries.add(entry);
     }
 
-
     /**
-     * Finds and prints all workout entries for a specific trainer name.
+     * Finds and returns a list of workout entries for a specific trainer name.
      *
      * @param trainerName the trainer name to search for.
+     * @return a list of workout entries for the specified trainer name.
      */
-    public void findByTrainerName(String trainerName)
+    public List<WorkoutEntry> findByTrainerName(String trainerName)
     {
         if (trainerName == null || trainerName.isBlank())
         {
-            System.out.println("Please provide a trainer name.");
-            return;
+            return List.of(); // Return an empty list if invalid input
         }
 
         String needle = trainerName.trim();
-        boolean found = false;
-        Iterator<WorkoutEntry> it = entries.iterator();
-        while (it.hasNext())
+        List<WorkoutEntry> result = new ArrayList<>();
+
+        for (WorkoutEntry e : entries)
         {
-            WorkoutEntry e = it.next();
             if (e.getTrainerName().equalsIgnoreCase(needle))
             {
-                System.out.println(e);
-                found = true;
+                result.add(e);
             }
         }
-        if (!found)
-        {
-            System.out.println("No entries found for trainer: " + trainerName);
-        }
+        return result;
     }
 
     /**
-     * Finds and prints all workout entries for a specific workout type.
+     * Finds and returns a list of workout entries for a specific workout type.
      *
      * @param workout the workout type to search for.
+     * @return a list of workout entries for the specified workout type.
      */
-    public void findByWorkout(String workout)
+    public List<WorkoutEntry> findByWorkout(String workout)
     {
         if (workout == null || workout.isBlank())
         {
-            System.out.println("Please provide a workout type.");
-            return;
+            return List.of();
         }
 
         String needle = workout.trim();
-        boolean found = false;
-        Iterator<WorkoutEntry> it = entries.iterator();
-        while (it.hasNext())
+        List<WorkoutEntry> result = new ArrayList<>();
+
+        for (WorkoutEntry e : entries)
         {
-            WorkoutEntry e = it.next();
             if (e.getWorkout().equalsIgnoreCase(needle))
             {
-                System.out.println(e);
-                found = true;
+                result.add(e);
             }
         }
-        if (!found)
-        {
-            System.out.println("No entries found for workout type: " + workout);
-        }
+        return result;
     }
 
     /**
@@ -155,9 +140,9 @@ public class WorkoutEntryBook
      *
      * @return the number of workout entries in the collection.
      */
-    public int getNumbersOfEntries()
+    public int getNumberOfEntries()
     {
-        return this.entries.size();
+        return entries.size();
     }
 
     /**
@@ -167,7 +152,7 @@ public class WorkoutEntryBook
      */
     public Iterator<WorkoutEntry> getIterator()
     {
-        return this.entries.iterator();
+        return entries.iterator();
     }
 
 

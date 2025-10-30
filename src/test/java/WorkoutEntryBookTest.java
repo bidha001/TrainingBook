@@ -44,7 +44,7 @@ public class WorkoutEntryBookTest {
         WorkoutEntryBook book = new WorkoutEntryBook();
         WorkoutEntry entry = new WorkoutEntry("Binit", "Treadmill", "Just a warmup before I start with my leg exercise", null);
         book.addEntry(entry);
-        assertEquals(1, book.getNumbersOfEntries());
+        assertEquals(1, book.getNumberOfEntries());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class WorkoutEntryBookTest {
         book.addEntry(entry1);
         book.addEntry(entry2);
         book.deleteByIndex(0);
-        assertEquals(1, book.getNumbersOfEntries());
+        assertEquals(1, book.getNumberOfEntries());
     }
 
     @Test
