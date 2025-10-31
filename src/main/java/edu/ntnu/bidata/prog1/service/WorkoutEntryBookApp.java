@@ -4,9 +4,7 @@ import edu.ntnu.bidata.prog1.ui.WorkoutEntryUi;
 
 /**
  * The main application class for the Workout Entry Book.
- *
- * This class contains the main method which serves as the entry point
- * for the application. It initializes and starts the user interface
+ * It initializes and starts the user interface and starting the concole-based interaction
  * for managing workout entries.
  *
  * @version 2025-09-29
@@ -14,10 +12,14 @@ import edu.ntnu.bidata.prog1.ui.WorkoutEntryUi;
  */
 public class WorkoutEntryBookApp
 {
-/**
-     * The main method to start the Workout Entry Book application.
-     *
-     * @param args Command-line arguments.
+    /**
+     * Starts the Workout Entry Book application.
+     *<p>
+     * This method initializes the UI and loads any predefines
+     * test data, and start the main interaction loop where users can add, list,
+     * search, and delete workout entries.
+     *</p>
+     * @param args command-line arguments.
      */
     public static void main(String[] args)
     {

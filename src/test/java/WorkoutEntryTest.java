@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 
 public class WorkoutEntryTest {
+
     @Test
     public void createValidWorkoutEntry() {
         WorkoutEntry entry = new WorkoutEntry("Binit", "Treadmill", "Just a warmup before I start with my leg exercise", null);

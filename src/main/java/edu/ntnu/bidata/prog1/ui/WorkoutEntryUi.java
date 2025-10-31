@@ -40,10 +40,9 @@ public class WorkoutEntryUi
     }
 
     /**
-     * Prints all workout entries to the console.
-     *
-     * This version uses a while-loop and Iterator to iterate over all
-     * the workout entry elements in the workout entry book.
+     * Prints all workout entries in the workout entry book.
+     * If there are no entries, informs the user accordingly.
+     * Otherwise, lists all entries with their respective indices.
      */
     public void printAllEntries()
     {
@@ -63,13 +62,11 @@ public class WorkoutEntryUi
         }
     }
 
-
     /**
-     * Deletes a workout entry by its index.
-     *
-     * Prompts the user for an index and attempts to delete the corresponding
-     * workout entry from the workout entry book. If the index is invalid,
-     * informs the user accordingly.
+     * Deletes a workout entry by its index based on user input.
+     * Prompts the user for the index of the entry to delete.
+     * If the index is valid, deletes the entry and confirms the deletion.
+     * If the index is invalid or not a number, informs the user accordingly.
      */
     private void deleteByIndex()
 
@@ -86,65 +83,62 @@ public class WorkoutEntryUi
     }
 
     /**
-     * Fills the workout entry book with some test data.
+     * Fills the workout entry book with predefined test data.
+     * Adds several workout entries with sample trainer names, workout titles, and details.
      */
     private void fillWithTestData()
     {
         this.workoutEntryBook.addEntry(new WorkoutEntry(
                 "Binit",
-                "Treadmill",
-                "Completed a 5 km run at a steady pace. Focused on maintaining a heart rate of around 140 bpm. "
-                        + "Started with a 5-minute warm-up walk and ended with 3 minutes of cooldown at a slower speed.",
+                "Squat",
+                "Started with a warm-up of 12 reps without any weights. "
+                        + "Then performed 4 working sets, beginning at 20 kg and increasing the weight by 15 kg each set, "
+                        + "finishing with 60 kg in the final set.",
                 null
         ));
 
         this.workoutEntryBook.addEntry(new WorkoutEntry(
-                "Anna",
+                "Anish",
                 "Bench Press",
-                "Performed 3 sets of 10 reps at 45 kg. Took 90 seconds of rest between each set. "
-                        + "Focused on slow descent and proper breathing technique. Felt stable shoulder engagement today.",
+                "Completed 3 sets of 10 reps at 450 kg with 90 seconds of rest between sets. "
+                        + "For the final heavy set, increased the load to 1000 kg and managed 6 solid reps.",
                 null
         ));
 
         this.workoutEntryBook.addEntry(new WorkoutEntry(
-                "Binit",
-                "Cycling",
-                "20-minute indoor cycling session at moderate resistance. "
-                        + "Maintained cadence between 85–90 RPM. "
-                        + "Included two 30-second sprints at the end for intensity boost.",
-                null
-        ));
-
-        this.workoutEntryBook.addEntry(new WorkoutEntry(
-                "Sofia",
+                "Omkar",
                 "Deadlift",
-                "Warm-up: 2 sets of 8 reps at 60 kg. "
-                        + "Main sets: 3 sets of 5 reps at 90 kg. Focused on form and hip drive. "
-                        + "Lower back felt slightly tight after the last set, noted for next session.",
+                "Started with leg and back stretches to prevent soreness during the workout. "
+                        + "Warmed up with 60 kg, then performed 4 working sets of 12 reps, "
+                        + "starting at 120 kg and adding 20 kg with each set.",
                 null
         ));
 
         this.workoutEntryBook.addEntry(new WorkoutEntry(
-                "Jonas",
-                "Swimming",
-                "Swam 40 laps (1 km total) focusing on freestyle technique. "
-                        + "Alternated between steady and sprint intervals. "
-                        + "Worked on breathing every 3 strokes to improve endurance.",
+                "Shraddha",
+                "Biceps",
+                "Began with 2 warm-up sets of 8 reps at 10 kg to warm up the muscles. "
+                        + "Then performed 3 main sets of 12 reps at 10 kg, focusing on form, control, and proper technique.",
                 null
         ));
 
+        this.workoutEntryBook.addEntry(new WorkoutEntry(
+                "Sawbeen",
+                "Triceps",
+                "Started with 2 warm-up sets of 8 reps at 20 kg. "
+                        + "Followed by 4 working sets of 12 reps at 30 kg, "
+                        + "increasing the weight by 10 kg each set while maintaining good form throughout.",
+                null
+        ));
     }
 
     /**
-     * Shows the menu to the user and awaits the choice from the user.
-     * The choice entered by the user is returned.
+     * Displays the main menu and prompts the user for a choice.
      *
-     * @return the choice entered by the user, as an int.
+     * @return the user's menu choice as an integer.
      */
     private int showMenu()
     {
-        int menuChoice = 0;
-
         System.out.println("\n***** Workout Entry Application v0.1 *****");
         System.out.println("1. Add workout entry");
         System.out.println("2. List all workout entries");
@@ -164,8 +158,8 @@ public class WorkoutEntryUi
 
     /**
      * Adds a new workout entry based on user input.
-     * Prompts the user for trainer name, workout title, and details,
-     * then creates a new WorkoutEntry and adds it to the workout entry book.
+     * Prompts the user for trainer name, workout title, and details.
+     * Creates a new WorkoutEntry and adds it to the workout entry book.
      */
     private void addEntryFromInput()
     {
@@ -225,7 +219,6 @@ public class WorkoutEntryUi
         }
     }
 
-
     /**
          * Searches for workout entries by date.
          * Prompts the user for a date in the format yyyy-MM-dd and displays all entries from that date.
@@ -249,15 +242,6 @@ public class WorkoutEntryUi
             System.out.println("Invalid date format.");
         }
     }
-
-        /**
-         * Initializes the workout entry book with test data.
-         */
-        public void init()
-        {
-            fillWithTestData();
-        }
-
 
     /**
      * Starts the user interface, displaying the menu and handling user input.
@@ -284,6 +268,14 @@ public class WorkoutEntryUi
                     default -> System.out.println("Please choose a number 1–6.");
             }
         }
+    }
+
+    /**
+     * Initializes the user interface with test data.
+     */
+    public void init()
+    {
+        fillWithTestData();
     }
 }
 

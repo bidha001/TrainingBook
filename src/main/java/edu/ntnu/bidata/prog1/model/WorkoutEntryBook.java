@@ -154,6 +154,4 @@ public class WorkoutEntryBook
     {
         return entries.iterator();
     }
-
-
 }
