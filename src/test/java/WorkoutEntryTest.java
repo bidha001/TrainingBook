@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Performs unit test on the WorkoutEntry class.
  *
  * The following positive test is executed:
- *
+ * 
  * Create a valid instance with all correct parameters.
  * Create a code on timestamp null to use current date and time.
  * Expect an instance to be created.

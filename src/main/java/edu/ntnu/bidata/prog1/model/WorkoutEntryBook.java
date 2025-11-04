@@ -1,9 +1,7 @@
 package edu.ntnu.bidata.prog1.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a collection of workout entries which allows adding,searching, and removing workout entries.
@@ -27,6 +25,38 @@ public class WorkoutEntryBook
 {
     private final List<WorkoutEntry> entries = new ArrayList<>();
 
+    // Map to keep track of trainer statistics
+    private final LinkedHashMap<String, Integer> trainerCounts = new LinkedHashMap<>();
+
+    /**
+     * Registers a new trainer in the register.
+     * If the trainer already exists, no action is taken.
+     *
+     * @param name the name of the trainer to be registered.
+     * @throws IllegalArgumentException if the name is null or blank.
+     */
+    public void registerTrainer(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Trainer name cannot be null or blank");
+        }
+        String key = name.trim();
+        trainerCounts.putIfAbsent(key, 0);
+    }
+
+    /**
+     * Returns a list of all registered trainers.
+     */
+    public List<String> getTrainers() {
+        return new ArrayList<>(trainerCounts.keySet());
+    }
+
+    /**
+     * Returns a map of trainer names to their corresponding workout entry counts.
+     */
+    public Map<String, Integer> getTrainerStats() {
+        return new LinkedHashMap<>(trainerCounts);
+    }
+
 
     /**
      * Adds  workout entry to the collection in WorkoutEntryBook.
@@ -41,6 +71,9 @@ public class WorkoutEntryBook
             throw new IllegalArgumentException("Workout entry cannot be null");
         }
         entries.add(entry);
+
+        String trainer = entry.getTrainerName().trim();
+        trainerCounts.put(trainer, trainerCounts.getOrDefault(trainer, 0) + 1);
     }
 
     /**
@@ -119,22 +152,29 @@ public class WorkoutEntryBook
         return result;
     }
 
+
     /**
      * Deletes a workout entry by its index in the collection.
      *
      * @param index the index of the workout entry to be deleted.
      * @return true if the entry was successfully deleted, false if the index is invalid.
      */
-    public boolean deleteByIndex(int index)
-    {
-        if (index < 0 || index >= entries.size())
-        {
+    public boolean deleteByIndex(int index) {
+        if (index < 0 || index >= entries.size()) {
             return false;
         }
-        entries.remove(index);
+        WorkoutEntry removed = entries.remove(index);
+
+        // keep trainer register in sync
+        String trainer = removed.getTrainerName().trim();
+        int newCount = trainerCounts.getOrDefault(trainer, 0) - 1;
+        if (newCount <= 0) {
+            trainerCounts.remove(trainer);
+        } else {
+            trainerCounts.put(trainer, newCount);
+        }
         return true;
     }
-
     /**
      * Returns the number of workout entries in the collection.
      *

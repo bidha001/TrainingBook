@@ -6,6 +6,7 @@ import edu.ntnu.bidata.prog1.model.WorkoutEntryBook;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -38,6 +39,59 @@ public class WorkoutEntryUi
     {
         this.workoutEntryBook = new WorkoutEntryBook();
     }
+
+    /**
+     * Prompts the user to select an existing trainer or create a new one.
+     * If no trainers exist, prompts for a new trainer name.
+     * Returns the selected or newly created trainer name.
+     *
+     * @return the selected or newly created trainer name.
+     */
+    private String selectTrainer() {
+        List<String> trainers = workoutEntryBook.getTrainers();
+
+        if (trainers.isEmpty()) {
+            System.out.print("No trainers yet. Enter new trainer name: ");
+            String name = sc.nextLine().trim();
+            if (name.isEmpty()) {
+                System.out.println("Trainer name cannot be blank.");
+                return selectTrainer();
+            }
+            workoutEntryBook.registerTrainer(name);
+            return name;
+        }
+
+        while (true) {
+            System.out.println("\nChoose a trainer:");
+            for (int i = 0; i < trainers.size(); i++) {
+                System.out.println((i + 1) + ". " + trainers.get(i));
+            }
+            System.out.println("0. Create new trainer");
+            System.out.print("Select (0-" + trainers.size() + "): ");
+            String line = sc.nextLine().trim();
+
+            try {
+                int choice = Integer.parseInt(line);
+                if (choice == 0) {
+                    System.out.print("Enter new trainer name: ");
+                    String name = sc.nextLine().trim();
+                    if (name.isEmpty()) {
+                        System.out.println("Trainer name cannot be blank.");
+                        continue;
+                    }
+                    workoutEntryBook.registerTrainer(name);
+                    return name;
+                } else if (choice >= 1 && choice <= trainers.size()) {
+                    return trainers.get(choice - 1);
+                } else {
+                    System.out.println("Invalid choice.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number.");
+            }
+        }
+    }
+
 
     /**
      * Prints all workout entries in the workout entry book.
@@ -139,15 +193,16 @@ public class WorkoutEntryUi
      */
     private int showMenu()
     {
-        System.out.println("\n***** Workout Entry Application v0.1 *****");
+        System.out.println("\n***** Workout Entry Application v0.2 *****");
         System.out.println("1. Add workout entry");
         System.out.println("2. List all workout entries");
         System.out.println("3. Search by trainer name");
         System.out.println("4. Search by workout title");
         System.out.println("5. Search by date (yyyy-MM-dd)");
         System.out.println("6. Delete by index");
-        System.out.println("7. Quit");
-        System.out.print("Choose (1-7): ");
+        System.out.println("7. Show trainers & stats");
+        System.out.println("8. Quit");
+        System.out.print("Choose (1-8): ");
         String line = sc.nextLine();
         try {
             return Integer.parseInt(line.trim());
@@ -163,8 +218,7 @@ public class WorkoutEntryUi
      */
     private void addEntryFromInput()
     {
-        System.out.print("Trainer name: ");
-        String name = sc.nextLine();
+        String name = selectTrainer();
         System.out.print("Workout title: ");
         String title = sc.nextLine();
         System.out.print("Details: ");
@@ -244,6 +298,23 @@ public class WorkoutEntryUi
     }
 
     /**
+     * Displays a list of all registered trainers along with the number of
+     * workout entries associated with each trainer.
+     * If no trainers are registered, informs the user accordingly.
+     */
+    private void showTrainersAndStats() {
+        var stats = workoutEntryBook.getTrainerStats();
+        if (stats.isEmpty()) {
+            System.out.println("No trainers registered yet.");
+            return;
+        }
+        System.out.println("\nTrainers (entries):");
+        stats.forEach((trainer, count) -> System.out.println("- " + trainer + " (" + count + ")"));
+    }
+
+
+
+    /**
      * Starts the user interface, displaying the menu and handling user input.
      * Continues to prompt the user until they choose to quit.
      */
@@ -259,13 +330,14 @@ public class WorkoutEntryUi
                 case 4 -> searchByWorkout();
                 case 5 -> searchByDate();
                 case 6 -> deleteByIndex();
-                case 7 ->
+                case 7 -> showTrainersAndStats();
+                case 8 ->
                 {
                     System.out.println("Thank you!");
                     sc.close();
                     finished = true;
                 }
-                    default -> System.out.println("Please choose a number 1–6.");
+                    default -> System.out.println("Please choose a number 1–8.");
             }
         }
     }
