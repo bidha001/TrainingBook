@@ -26,13 +26,16 @@ public class WorkoutEntry
      */
     public WorkoutEntry(String trainerName, String workout, String text, LocalDateTime timestamp)
     {
-        if (trainerName == null || trainerName.isEmpty()) {
+        if (trainerName == null || trainerName.isEmpty())
+        {
             throw new IllegalArgumentException("Trainer name cannot be null or empty");
         }
-        if (workout == null || workout.isEmpty()) {
+        if (workout == null || workout.isEmpty())
+        {
             throw new IllegalArgumentException("Workout cannot be null or empty");
         }
-        if (text == null) {
+        if (text == null)
+        {
             throw new IllegalArgumentException("Text cannot be null or empty");
         }
 
@@ -67,7 +70,8 @@ public class WorkoutEntry
      *
      * @return the description text of the workout.
      */
-    public String getText(){
+    public String getText()
+    {
         return text;
     }
 
@@ -94,7 +98,7 @@ public class WorkoutEntry
                 + "\nTitle: " + workout
                 + "\nWhen: " + timestamp
                 + "\nText: " + text
-                + "\n-------------------------------";
+                + "\n----------------------------------------------------------------------------";
 
     }
 }

@@ -4,7 +4,7 @@ import edu.ntnu.bidata.prog1.ui.WorkoutEntryUi;
 
 /**
  * The main application class for the Workout Entry Book.
- * It initializes and starts the user interface and starting the concole-based interaction
+ * It initializes and starts the user interface and starting the console-based interaction
  * for managing workout entries.
  *
  * @version 2025-09-29

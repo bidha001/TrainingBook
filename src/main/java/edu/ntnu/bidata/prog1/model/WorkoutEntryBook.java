@@ -35,10 +35,13 @@ public class WorkoutEntryBook
      * @param name the name of the trainer to be registered.
      * @throws IllegalArgumentException if the name is null or blank.
      */
-    public void registerTrainer(String name) {
-        if (name == null || name.isBlank()) {
+    public void registerTrainer(String name)
+    {
+        if (name == null || name.isBlank())
+        {
             throw new IllegalArgumentException("Trainer name cannot be null or blank");
         }
+
         String key = name.trim();
         trainerCounts.putIfAbsent(key, 0);
     }
@@ -46,14 +49,16 @@ public class WorkoutEntryBook
     /**
      * Returns a list of all registered trainers.
      */
-    public List<String> getTrainers() {
+    public List<String> getTrainers()
+    {
         return new ArrayList<>(trainerCounts.keySet());
     }
 
     /**
      * Returns a map of trainer names to their corresponding workout entry counts.
      */
-    public Map<String, Integer> getTrainerStats() {
+    public Map<String, Integer> getTrainerStats()
+    {
         return new LinkedHashMap<>(trainerCounts);
     }
 
@@ -70,6 +75,7 @@ public class WorkoutEntryBook
         {
             throw new IllegalArgumentException("Workout entry cannot be null");
         }
+        
         entries.add(entry);
 
         String trainer = entry.getTrainerName().trim();
@@ -152,6 +158,33 @@ public class WorkoutEntryBook
         return result;
     }
 
+    /**
+     * Finds and returns a list of workout entries within a given date range.
+     *
+     * @param from the start date (inclusive)
+     * @param to the end date (inclusive)
+     * @return a list of workout entries between the two dates
+     * @throws IllegalArgumentException if either date is null
+     */
+    public List<WorkoutEntry> findByDateRange(LocalDate from, LocalDate to)
+    {
+        if (from == null || to == null) {
+            throw new IllegalArgumentException("Dates cannot be null");
+        }
+
+        if (to.isBefore(from)) {
+            return List.of();
+        }
+
+        List<WorkoutEntry> result = new ArrayList<>();
+        for (WorkoutEntry e : entries) {
+            LocalDate d = e.getTimestamp().toLocalDate();
+            if ((d.isEqual(from) || d.isAfter(from)) && (d.isEqual(to) || d.isBefore(to))) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
 
     /**
      * Deletes a workout entry by its index in the collection.
@@ -159,7 +192,8 @@ public class WorkoutEntryBook
      * @param index the index of the workout entry to be deleted.
      * @return true if the entry was successfully deleted, false if the index is invalid.
      */
-    public boolean deleteByIndex(int index) {
+    public boolean deleteByIndex(int index)
+    {
         if (index < 0 || index >= entries.size()) {
             return false;
         }
@@ -175,6 +209,7 @@ public class WorkoutEntryBook
         }
         return true;
     }
+
     /**
      * Returns the number of workout entries in the collection.
      *
